@@ -60,3 +60,5 @@ class ControlHandler(tornado.web.RequestHandler):
                 self.application.arduino_handler.arduino.write(stop_command.encode())
                 
             return {"status": "success", "command": command, "speed": speed}
+        except Exception as e:
+            return {"error": str(e)}
