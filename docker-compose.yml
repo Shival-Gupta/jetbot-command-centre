@@ -1,33 +1,20 @@
 version: '3.8'
 
-x-common: &common
-  build:
-    context: .
-    dockerfile: Dockerfile
-  restart: always
-  volumes:
-    - /dev:/dev
-    - ./logs:/app/logs
-  privileged: true
-  network_mode: "host"
-  environment:
-    - PYTHONUNBUFFERED=1
-    - COOKIE_SECRET=change_this_to_a_random_secret
-
 services:
-  # Service for x86_64 (development machine)
-  jetbot-dashboard-amd64:
-    <<: *common
-    image: ghcr.io/shival-gupta/jetbot-command-centre:amd64
-    platform: linux/amd64
-    profiles: ["amd64"]
-
-  # Service for ARM64 (Jetson Nano)
-  jetbot-dashboard-arm64:
-    <<: *common
+  jetbot-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: ghcr.io/shival-gupta/jetbot-command-centre:arm64
-    platform: linux/arm64
-    profiles: ["arm64"]
+    restart: always
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - COOKIE_SECRET=${COOKIE_SECRET:-change_this_to_a_random_secret}
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/ttyACM0:/dev/ttyACM0
