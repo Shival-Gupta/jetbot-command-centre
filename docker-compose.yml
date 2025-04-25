@@ -1,12 +1,17 @@
-version: '3.8'
+name: jetbot-command-centre
 
 services:
-  jetbot-dashboard:
+  dashboard:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ghcr.io/shival-gupta/jetbot-command-centre:arm64
-    restart: always
+      args:
+        BUILDPLATFORM: ${BUILDPLATFORM:-linux/arm64}
+      labels:
+        org.opencontainers.image.source: https://github.com/Shival-Gupta/jetbot-command-centre
+    image: ${DOCKER_REGISTRY:-ghcr.io}/shival-gupta/jetbot-command-centre:${TAG:-latest}
+    platform: ${PLATFORM:-linux/arm64}
+    restart: unless-stopped
     network_mode: "host"
     privileged: true
     volumes:
