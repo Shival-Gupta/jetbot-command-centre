@@ -6,7 +6,7 @@ class AuthHandler(tornado.web.RequestHandler):
         if self.get_secure_cookie("user"):
             self.redirect("/")
             return
-        self.render("../frontend/src/index.html")
+        self.render("index.html")
     
     def post(self):
         data = json.loads(self.request.body)

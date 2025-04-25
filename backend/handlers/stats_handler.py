@@ -2,6 +2,10 @@ import tornado.websocket
 import json
 import psutil
 import asyncio
+import os
+import platform
+import subprocess
+from datetime import datetime
 
 class StatsWebSocket(tornado.websocket.WebSocketHandler):
     clients = set()
@@ -30,11 +34,13 @@ class StatsWebSocket(tornado.websocket.WebSocketHandler):
             return
             
         stats = {
+            'system': await cls.get_system_info(),
             'cpu': psutil.cpu_percent(interval=None),
             'memory': psutil.virtual_memory()._asdict(),
             'disk': psutil.disk_usage('/')._asdict(),
             'temperature': await cls.get_jetson_temp(),
-            'arduino_connected': await cls.check_arduino_connection()
+            'arduino_connected': await cls.check_arduino_connection(),
+            'uptime': cls.get_uptime()
         }
         
         for client in cls.clients:
@@ -42,6 +48,66 @@ class StatsWebSocket(tornado.websocket.WebSocketHandler):
                 client.write_message(json.dumps(stats))
             except:
                 pass
+
+    @staticmethod
+    async def get_system_info():
+        try:
+            # Get OS information
+            os_info = {
+                'system': platform.system(),
+                'release': platform.release(),
+                'version': platform.version(),
+                'machine': platform.machine(),
+                'processor': platform.processor()
+            }
+
+            # Get package counts
+            dpkg_count = 0
+            snap_count = 0
+            try:
+                dpkg = subprocess.check_output(['dpkg-query', '-f', '${binary:Package}\n', '-W']).decode()
+                dpkg_count = len(dpkg.splitlines())
+            except:
+                pass
+            try:
+                snap = subprocess.check_output(['snap', 'list']).decode()
+                snap_count = len(snap.splitlines()) - 1  # Subtract header line
+            except:
+                pass
+
+            # Get shell information
+            shell = os.environ.get('SHELL', '')
+            
+            # Get GPU information for Jetson
+            gpu_info = None
+            try:
+                nvidia_smi = subprocess.check_output(['nvidia-smi', '--query-gpu=gpu_name,memory.total,memory.used', '--format=csv,noheader']).decode()
+                gpu_info = nvidia_smi.strip()
+            except:
+                pass
+
+            return {
+                'os': os_info,
+                'packages': {
+                    'dpkg': dpkg_count,
+                    'snap': snap_count
+                },
+                'shell': shell,
+                'gpu': gpu_info
+            }
+        except Exception as e:
+            return str(e)
+
+    @staticmethod
+    def get_uptime():
+        try:
+            with open('/proc/uptime', 'r') as f:
+                uptime_seconds = float(f.readline().split()[0])
+                hours = int(uptime_seconds // 3600)
+                minutes = int((uptime_seconds % 3600) // 60)
+                return f"{hours} hours, {minutes} mins"
+        except:
+            return None
 
     @staticmethod
     async def get_jetson_temp():

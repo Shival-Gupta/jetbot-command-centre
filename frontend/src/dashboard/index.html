@@ -28,64 +28,87 @@
         <!-- Main Content -->
         <main class="container mx-auto p-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- System Information -->
+                <div class="bg-white rounded-lg shadow p-4 col-span-full">
+                    <h2 class="text-lg font-semibold mb-4">System Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-gray-600">OS:</span>
+                                <span id="osInfo" class="font-mono">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Host:</span>
+                                <span id="hostInfo" class="font-mono">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Kernel:</span>
+                                <span id="kernelInfo" class="font-mono">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Uptime:</span>
+                                <span id="uptimeInfo" class="font-mono">-</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-gray-600">Packages:</span>
+                                <span id="packagesInfo" class="font-mono">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Shell:</span>
+                                <span id="shellInfo" class="font-mono">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">CPU:</span>
+                                <span id="cpuInfo" class="font-mono">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">GPU:</span>
+                                <span id="gpuInfo" class="font-mono">-</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-md font-semibold">Power Controls</h3>
+                            <div class="flex space-x-2">
+                                <button onclick="Dashboard.rebootSystem()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
+                                    Reboot
+                                </button>
+                                <button onclick="Dashboard.poweroffSystem()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                                    Power Off
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- System Stats -->
                 <div class="bg-white rounded-lg shadow p-4">
-                    <h2 class="text-lg font-semibold mb-4">System Status</h2>
+                    <h2 class="text-lg font-semibold mb-4">System Stats</h2>
                     <div class="space-y-2">
                         <div>
-                            <span class="text-gray-600">CPU Usage:</span>
-                            <span id="cpuUsage" class="font-mono">0%</span>
+                            <span class="text-gray-600">CPU Load:</span>
+                            <span id="cpuLoad" class="font-mono">-</span>
                         </div>
                         <div>
                             <span class="text-gray-600">Memory Usage:</span>
-                            <span id="memoryUsage" class="font-mono">0%</span>
+                            <span id="memoryUsage" class="font-mono">-</span>
                         </div>
                         <div>
-                            <span class="text-gray-600">Temperature:</span>
-                            <span id="temperature" class="font-mono">0°C</span>
+                            <span class="text-gray-600">Disk Usage:</span>
+                            <span id="diskUsage" class="font-mono">-</span>
                         </div>
                         <div>
-                            <span class="text-gray-600">Storage:</span>
-                            <span id="storage" class="font-mono">0%</span>
+                            <span class="text-gray-600">Network:</span>
+                            <span id="networkInfo" class="font-mono">-</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- CPU Graph -->
+                <!-- Connection Status -->
                 <div class="bg-white rounded-lg shadow p-4">
-                    <h2 class="text-lg font-semibold mb-4">CPU History</h2>
-                    <div id="cpuChart"></div>
-                </div>
-
-                <!-- Memory Graph -->
-                <div class="bg-white rounded-lg shadow p-4">
-                    <h2 class="text-lg font-semibold mb-4">Memory History</h2>
-                    <div id="memoryChart"></div>
-                </div>
-
-                <!-- Arduino Status -->
-                <div class="bg-white rounded-lg shadow p-4">
-                    <h2 class="text-lg font-semibold mb-4">Arduino Status</h2>
+                    <h2 class="text-lg font-semibold mb-4">Connection Status</h2>
                     <div class="space-y-2">
-                        <div>
-                            <span class="text-gray-600">Connection:</span>
-                            <span id="arduinoStatus" class="font-mono">Disconnected</span>
-                        </div>
-                        <div>
-                            <span class="text-gray-600">Port:</span>
-                            <span id="arduinoPort" class="font-mono">-</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Network Status -->
-                <div class="bg-white rounded-lg shadow p-4">
-                    <h2 class="text-lg font-semibold mb-4">Network Status</h2>
-                    <div class="space-y-2">
-                        <div>
-                            <span class="text-gray-600">IP Address:</span>
-                            <span id="ipAddress" class="font-mono">-</span>
-                        </div>
                         <div>
                             <span class="text-gray-600">WebSocket:</span>
                             <span id="wsStatus" class="font-mono">Disconnected</span>

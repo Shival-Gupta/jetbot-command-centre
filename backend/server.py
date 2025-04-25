@@ -7,6 +7,7 @@ from handlers.stats_handler import StatsWebSocket
 from handlers.arduino_handler import ArduinoHandler
 from handlers.control_handler import ControlHandler
 from handlers.setup_handler import SetupHandler
+from handlers.power_handler import PowerHandler
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -19,6 +20,7 @@ def make_app():
     settings = {
         "cookie_secret": os.environ.get('COOKIE_SECRET', 'your-secret-key-here'),
         "static_path": os.path.join(os.path.dirname(__file__), "../frontend/src"),
+        "template_path": os.path.join(os.path.dirname(__file__), "../frontend/src"),
         "debug": bool(os.environ.get('DEBUG', False))
     }
     
@@ -34,6 +36,7 @@ def make_app():
         (r"/arduino/([^/]+)", ArduinoHandler),
         (r"/control/([^/]+)", ControlHandler),
         (r"/setup/([^/]+)", SetupHandler),
+        (r"/power/([^/]+)", PowerHandler),
         
         # Static file handlers for each section
         (r"/dashboard/(.*)", tornado.web.StaticFileHandler, {

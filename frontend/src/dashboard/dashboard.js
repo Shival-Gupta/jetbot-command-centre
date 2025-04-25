@@ -50,6 +50,19 @@ function formatBytes(bytes) {
 
 // Update UI with system stats
 function updateStats(data) {
+    // Update system information
+    if (data.system) {
+        document.getElementById('osInfo').textContent = `${data.system.os.system} ${data.system.os.version}`;
+        document.getElementById('hostInfo').textContent = data.system.os.machine;
+        document.getElementById('kernelInfo').textContent = data.system.os.release;
+        document.getElementById('uptimeInfo').textContent = data.uptime;
+        document.getElementById('packagesInfo').textContent = 
+            `${data.system.packages.dpkg} (dpkg), ${data.system.packages.snap} (snap)`;
+        document.getElementById('shellInfo').textContent = data.system.shell;
+        document.getElementById('cpuInfo').textContent = data.system.os.processor;
+        document.getElementById('gpuInfo').textContent = data.system.gpu || 'N/A';
+    }
+
     // Update simple stats
     document.getElementById('cpuUsage').textContent = `${data.cpu.toFixed(1)}%`;
     document.getElementById('memoryUsage').textContent = 
@@ -81,6 +94,45 @@ function updateStats(data) {
     cpuChart.setData([timestamps, cpuData]);
     memoryChart.setData([timestamps, memoryData]);
 }
+
+// Power control functions
+const Dashboard = {
+    async rebootSystem() {
+        if (!confirm('Are you sure you want to reboot the system?')) return;
+        
+        try {
+            const response = await fetch('/power/reboot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            if (!response.ok) throw new Error('Failed to reboot system');
+            
+            alert('System is rebooting...');
+        } catch (error) {
+            console.error('Reboot error:', error);
+            alert('Failed to reboot system: ' + error.message);
+        }
+    },
+
+    async poweroffSystem() {
+        if (!confirm('Are you sure you want to power off the system?')) return;
+        
+        try {
+            const response = await fetch('/power/poweroff', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            if (!response.ok) throw new Error('Failed to power off system');
+            
+            alert('System is powering off...');
+        } catch (error) {
+            console.error('Power off error:', error);
+            alert('Failed to power off system: ' + error.message);
+        }
+    }
+};
 
 // Handle WebSocket connection
 document.addEventListener('DOMContentLoaded', () => {
