@@ -49,7 +49,7 @@ COPY --chown=jetbot:jetbot frontend/ frontend/
 USER jetbot
 
 # Label for GitHub Container Registry
-LABEL org.opencontainers.image.source=https://github.com/USERNAME/jetbot-dashboard
+LABEL org.opencontainers.image.source=https://github.com/Shival-Gupta/jetbot-command-centre
 LABEL org.opencontainers.image.description="JetBot Dashboard for Jetson Nano"
 LABEL org.opencontainers.image.licenses=MIT
 

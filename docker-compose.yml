@@ -18,14 +18,14 @@ services:
   # Service for x86_64 (development machine)
   jetbot-dashboard-amd64:
     <<: *common
-    image: ghcr.io/USERNAME/jetbot-dashboard:amd64
+    image: ghcr.io/shival-gupta/jetbot-command-centre:amd64
     platform: linux/amd64
     profiles: ["amd64"]
 
   # Service for ARM64 (Jetson Nano)
   jetbot-dashboard-arm64:
     <<: *common
-    image: ghcr.io/USERNAME/jetbot-dashboard:arm64
+    image: ghcr.io/shival-gupta/jetbot-command-centre:arm64
     platform: linux/arm64
     profiles: ["arm64"]
     devices:
