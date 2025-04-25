@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JetBot Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/global.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/uplot@1.6.24/dist/uPlot.iife.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uplot@1.6.24/dist/uPlot.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        <!-- Navigation -->
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-xl font-bold">JetBot Dashboard</h1>
+                <div class="space-x-4">
+                    <a href="/dashboard/" class="hover:text-blue-300">Dashboard</a>
+                    <a href="/arduino/" class="hover:text-blue-300">Arduino IDE</a>
+                    <a href="/control/" class="hover:text-blue-300">Robot Control</a>
+                    <a href="/setup/" class="hover:text-blue-300">Setup</a>
+                    <button onclick="Auth.logout()" class="hover:text-red-300">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- System Stats -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h2 class="text-lg font-semibold mb-4">System Status</h2>
+                    <div class="space-y-2">
+                        <div>
+                            <span class="text-gray-600">CPU Usage:</span>
+                            <span id="cpuUsage" class="font-mono">0%</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Memory Usage:</span>
+                            <span id="memoryUsage" class="font-mono">0%</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Temperature:</span>
+                            <span id="temperature" class="font-mono">0°C</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Storage:</span>
+                            <span id="storage" class="font-mono">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CPU Graph -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h2 class="text-lg font-semibold mb-4">CPU History</h2>
+                    <div id="cpuChart"></div>
+                </div>
+
+                <!-- Memory Graph -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h2 class="text-lg font-semibold mb-4">Memory History</h2>
+                    <div id="memoryChart"></div>
+                </div>
+
+                <!-- Arduino Status -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h2 class="text-lg font-semibold mb-4">Arduino Status</h2>
+                    <div class="space-y-2">
+                        <div>
+                            <span class="text-gray-600">Connection:</span>
+                            <span id="arduinoStatus" class="font-mono">Disconnected</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Port:</span>
+                            <span id="arduinoPort" class="font-mono">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Status -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h2 class="text-lg font-semibold mb-4">Network Status</h2>
+                    <div class="space-y-2">
+                        <div>
+                            <span class="text-gray-600">IP Address:</span>
+                            <span id="ipAddress" class="font-mono">-</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">WebSocket:</span>
+                            <span id="wsStatus" class="font-mono">Disconnected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/global.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

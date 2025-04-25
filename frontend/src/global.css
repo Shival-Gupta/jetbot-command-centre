@@ -1,0 +1,129 @@
+/* Custom scroll styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+/* Movement button styles */
+.movement-btn {
+    transition: transform 0.1s;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.movement-btn:active {
+    transform: scale(0.95);
+}
+
+/* Range input styling */
+input[type="range"] {
+    height: 8px;
+    -webkit-appearance: none;
+    background: #e5e7eb;
+    border-radius: 4px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #3b82f6;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #2563eb;
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.status-indicator.connected {
+    background-color: #10b981;
+}
+
+.status-indicator.disconnected {
+    background-color: #ef4444;
+}
+
+/* Loading animation */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #e5e7eb;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+/* Chart container styles */
+.chart-container {
+    position: relative;
+    height: 200px;
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}
+
+.font-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Serial monitor styles */
+.serial-output {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    white-space: pre-wrap;
+}
+
+.serial-output .command {
+    color: #3b82f6;
+}
+
+.serial-output .response {
+    color: #059669;
+}
+
+.serial-output .error {
+    color: #dc2626;
+}

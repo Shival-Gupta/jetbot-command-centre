@@ -1,0 +1,39 @@
+version: '3.8'
+
+x-common: &common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  restart: always
+  volumes:
+    - /dev:/dev
+    - ./logs:/app/logs
+  privileged: true
+  network_mode: "host"
+  environment:
+    - PYTHONUNBUFFERED=1
+    - COOKIE_SECRET=change_this_to_a_random_secret
+
+services:
+  # Service for x86_64 (development machine)
+  jetbot-dashboard-amd64:
+    <<: *common
+    image: ghcr.io/USERNAME/jetbot-dashboard:amd64
+    platform: linux/amd64
+    profiles: ["amd64"]
+
+  # Service for ARM64 (Jetson Nano)
+  jetbot-dashboard-arm64:
+    <<: *common
+    image: ghcr.io/USERNAME/jetbot-dashboard:arm64
+    platform: linux/arm64
+    profiles: ["arm64"]
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyACM0:/dev/ttyACM0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
